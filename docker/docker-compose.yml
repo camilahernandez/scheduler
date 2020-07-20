@@ -1,0 +1,25 @@
+version: "3"
+services: 
+    app:
+        build: 
+            context: .
+        image: schedulerapp:latest
+        environment: 
+            APP_DATASOURCE_JDBC-URL: jdbc:postgresql://dbpostgres:5432/spring-app
+        ports: 
+            - "8080:8080"
+        depends_on: 
+            - dbpostgres
+    dbpostgres:
+        image: postgres:12.2-alpine
+        restart: always
+        volumes: 
+            - db-data:/var/lib/postgresql/data
+        ports: 
+            - "5432:5432"
+        environment:
+            - POSTGRES_PASSWORD=cami
+            - POSTGRES_DB=spring-app
+volumes: 
+    db-data:
+        driver: local    
